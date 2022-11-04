@@ -45,11 +45,13 @@ func (pp *ParallelPool) worker(task func()) {
 	}
 }
 
-func (pp *ParallelPool) Close() {
+// 关闭通道
+func (pp *ParallelPool) close() {
 	close(pp.work)
 	close(pp.num)
 }
 
 func (pp *ParallelPool) Wait() {
 	pp.wg.Wait()
+	pp.close()
 }

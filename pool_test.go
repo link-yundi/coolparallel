@@ -25,5 +25,4 @@ func TestPool(t *testing.T) {
 		p.AddTask(task)
 	}
 	p.Wait()
-	p.Close()
 }
