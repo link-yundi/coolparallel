@@ -1,6 +1,8 @@
 package coolparallel
 
-import "sync"
+import (
+	"sync"
+)
 
 /**
 ------------------------------------------------
@@ -27,11 +29,10 @@ func NewParallelPool(size int) *ParallelPool {
 
 // 往协程池中添加任务
 func (pp *ParallelPool) AddTask(task func(arg any), arg any) {
+	pp.wg.Add(1)
 	select {
 	case pp.work <- task:
-		pp.wg.Add(1)
 	case pp.num <- 1:
-		pp.wg.Add(1)
 		go pp.worker(task, arg)
 	}
 }
@@ -46,12 +47,11 @@ func (pp *ParallelPool) worker(task func(arg any), arg any) {
 }
 
 // 关闭通道
-func (pp *ParallelPool) close() {
+func (pp *ParallelPool) Close() {
 	close(pp.work)
 	close(pp.num)
 }
 
 func (pp *ParallelPool) Wait() {
 	pp.wg.Wait()
-	pp.close()
 }

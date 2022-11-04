@@ -26,6 +26,7 @@ func main() {
 		p.AddTask(task)
 	}
 	p.Wait()
+	p.Close()
 }
 ```
 
