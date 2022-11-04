@@ -1,4 +1,4 @@
-package coolmq
+package coolparallel
 
 import "sync"
 
